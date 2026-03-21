@@ -63,7 +63,7 @@ public class Main extends JFrame {
         sidebarPanel.setOpaque(false); // let gradient show
         getContentPane().add(sidebarPanel, BorderLayout.WEST);
 
-        DashboardPanel dashboardPanel = new DashboardPanel();
+        DashboardPanel dashboardPanel = new DashboardPanel(this);
         dashboardPanel.setOpaque(false);
         mainPanel.add(dashboardPanel, "Dashboard");
 

@@ -21,7 +21,7 @@ public class SidebarPanel extends GradientPanel {
 
         setBorder(BorderFactory.createEmptyBorder(15, 5, 20, 5));
 
-        JPanel navPanel = new JPanel(new GridLayout(0, 1, 0, 5));
+        JPanel navPanel = new JPanel(new GridLayout(0, 1, 0, 20));
         navPanel.setOpaque(false);
 
         // nav buttons

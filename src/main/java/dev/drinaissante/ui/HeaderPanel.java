@@ -11,7 +11,6 @@ import java.awt.event.MouseMotionAdapter;
 
 public class HeaderPanel extends JPanel {
 
-
     public HeaderPanel(Main mainFrame) {
         setLayout(new BorderLayout(10, 5));
         setOpaque(true);
@@ -33,6 +32,21 @@ public class HeaderPanel extends JPanel {
 
         add(titleLabel, BorderLayout.WEST);
 
+
+        // CONTROLS
+        JPanel controlPanel = setupControlButtons(mainFrame);
+
+        add(controlPanel, BorderLayout.EAST);
+
+        // TODO inbox, notification, profile (arrow down -> profile settings -> logout (?))
+
+        // setup the mouse adapters
+        setupMouseController(mainFrame);
+
+
+    }
+
+    private JPanel setupControlButtons(Main mainFrame) {
         ImageIcon close = ImageUtil.loadTintedIcon("/close.png", 24, 24, Color.WHITE);
         // Close button
         JButton closeBtn = createTitleButton(close, "Close", () -> System.exit(0));
@@ -61,10 +75,10 @@ public class HeaderPanel extends JPanel {
         controlPanel.add(restoreBtn);
         controlPanel.add(closeBtn);
 
-        add(controlPanel, BorderLayout.EAST);
+        return controlPanel;
+    }
 
-        // TODO inbox, notification, profile (arrow down -> profile settings -> logout (?))
-
+    private void setupMouseController(Main mainFrame) {
         final Point[] initialClick = new Point[1];
 
         addMouseListener(new MouseAdapter() {
@@ -107,7 +121,6 @@ public class HeaderPanel extends JPanel {
             }
         });
 
-
     }
 
     private JButton createTitleButton(ImageIcon icon, String text, Runnable action) {
@@ -131,7 +144,11 @@ public class HeaderPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 btn.setOpaque(true);
-                btn.setBackground(new Color(90, 90, 90)); // lighter gray
+
+                if (text.equals("Close"))
+                    btn.setBackground(new Color(200, 50, 50));
+                else
+                    btn.setBackground(new Color(90, 90, 90)); // lighter gray
             }
 
             @Override
