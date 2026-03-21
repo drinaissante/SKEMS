@@ -1,5 +1,6 @@
 package dev.drinaissante.ui;
 
+import dev.drinaissante.util.GradientPanel;
 import dev.drinaissante.util.RoundedBorder;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ public class DashboardPanel extends JPanel {
 
     public DashboardPanel() {
         setLayout(new BorderLayout());
+        setOpaque(false);
 
         // --- Summary cards ---
         JPanel summaryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
@@ -17,6 +19,7 @@ public class DashboardPanel extends JPanel {
         summaryPanel.add(createCard("Checked Out:", "18"));
         summaryPanel.add(createCard("Pending Requests:", "5"));
         summaryPanel.add(createCard("Overdue Items:", "2"));
+        summaryPanel.setOpaque(false);
 
         // --- Add Equipment button ---
         JButton addEquipmentBtn = new JButton("+ Add Equipment");
@@ -25,15 +28,17 @@ public class DashboardPanel extends JPanel {
         JPanel topRow = new JPanel(new BorderLayout());
         topRow.add(summaryPanel, BorderLayout.CENTER);
         topRow.add(addEquipmentBtn, BorderLayout.EAST);
+        topRow.setOpaque(false);
 
         // --- Search bar ---
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+        searchPanel.setOpaque(false);
 
         JLabel searchLabel = new JLabel("Search:");
         searchLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         // Rounded text field
-        JTextField searchField = getSearchBar();
+        JTextField searchField = new JTextField(25);
 
         searchPanel.add(searchLabel);
         searchPanel.add(searchField);
@@ -43,6 +48,7 @@ public class DashboardPanel extends JPanel {
         headerBlock.setLayout(new BoxLayout(headerBlock, BoxLayout.Y_AXIS));
         headerBlock.add(topRow);
         headerBlock.add(searchPanel);
+        headerBlock.setOpaque(false);
 
         // Place header block at the top
         add(headerBlock, BorderLayout.NORTH);
@@ -50,6 +56,7 @@ public class DashboardPanel extends JPanel {
         // --- Equipment inventory section ---
         JPanel equipmentsPanel = new JPanel(new BorderLayout());
         equipmentsPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // padding
+        equipmentsPanel.setOpaque(false);
 
         // Title aligned left
         JLabel equipmentsLabel = new JLabel("Equipments:");
@@ -59,51 +66,18 @@ public class DashboardPanel extends JPanel {
         // Table for inventory
         JTable equipmentTable = getTable();
         equipmentTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
+        equipmentTable.setOpaque(false);
 
         JScrollPane scrollPane = new JScrollPane(equipmentTable);
         equipmentsPanel.add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setOpaque(false);
+
+        scrollPane.getViewport().setOpaque(false);
+        equipmentTable.setOpaque(false);
 
         // ✅ Add to CENTER so it fills the width below the headerBlock
         add(equipmentsPanel, BorderLayout.CENTER);
 
-    }
-
-    private JTable getTable() {
-        String[] columns = {"Item Name", "Category", "Status", "Actions"};
-        Object[][] data = {
-                {"Canon EOS 5D Mark IV", "Camera", "Available", "Request"},
-                {"Sony A7 III", "Camera", "Checked Out", "Details"},
-                {"Manfrotto Tripod", "Tripod", "Reserved", "Request"},
-                {"LED Panel Light", "Lights", "Available", "Request"}
-        };
-
-        JTable equipmentTable = new JTable(data, columns);
-        equipmentTable.setRowHeight(28);
-        equipmentTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        return equipmentTable;
-    }
-
-    private JTextField getSearchBar() {
-        JTextField searchField = new JTextField(25) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Background fill
-                g2.setColor(new Color(245, 245, 255));
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-
-                // Border
-                g2.setColor(Color.GRAY);
-                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
-
-                g2.dispose();
-            }
-        };
-        searchField.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // padding inside
-        return searchField;
     }
 
     private JPanel createCard(String title, String value) {
@@ -125,5 +99,20 @@ public class DashboardPanel extends JPanel {
         cardPanel.add(valueLabel);
 
         return cardPanel;
+    }
+
+    private JTable getTable() {
+        String[] columns = {"Item Name", "Category", "Status", "Actions"};
+        Object[][] data = {
+                {"link", "Canon EOS 5D Mark IV", "Camera", "Available", "Request"},
+                {"link", "Sony A7 III", "Camera", "Checked Out", "Details"},
+                {"link", "Manfrotto Tripod", "Tripod", "Reserved", "Request"},
+                {"link", "LED Panel Light", "Lights", "Available", "Request"}
+        };
+
+        JTable equipmentTable = new JTable(data, columns);
+        equipmentTable.setRowHeight(28);
+        equipmentTable.setFont(new Font("Arial", Font.PLAIN, 14));
+        return equipmentTable;
     }
 }

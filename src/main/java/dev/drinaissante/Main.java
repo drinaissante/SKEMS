@@ -4,12 +4,20 @@ import dev.drinaissante.ui.DashboardPanel;
 import dev.drinaissante.ui.EquipmentPanel;
 import dev.drinaissante.ui.HeaderPanel;
 import dev.drinaissante.ui.SidebarPanel;
+import dev.drinaissante.util.GradientPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
+
+    public float[] fractions = {0.0f, 0.5f, 1.0f};
+    public Color[] colors = {
+            Color.decode("#0f2027"),   // cyan top
+            Color.decode("#203a43"),   // slate blue middle
+            Color.decode("#2c5364")    // navy bottom
+    };
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -20,12 +28,13 @@ public class Main extends JFrame {
 
     public void start() {
         // initiailize frame
-        setTitle("SKEMS – Sine Kultura Equipment Management System");
+        setTitle("SKEMS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1400, 850);
-        setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setResizable(false);
+
+        setContentPane(new GradientPanel(colors, fractions, false));
 
         buildUI();
 
@@ -35,14 +44,7 @@ public class Main extends JFrame {
     }
 
     private void buildUI() {
-        getContentPane().removeAll();
-
-        // header
-        HeaderPanel headerPanel = new HeaderPanel();
-        add(headerPanel, BorderLayout.NORTH);
-
-        SidebarPanel sidebarPanel = new SidebarPanel(this);
-        add(sidebarPanel, BorderLayout.WEST);
+        getContentPane().setLayout(new BorderLayout());
 
         if (cardLayout == null)
             cardLayout = new CardLayout();
@@ -50,10 +52,28 @@ public class Main extends JFrame {
         if (mainPanel == null)
             mainPanel = new JPanel(cardLayout);
 
-        mainPanel.add(new DashboardPanel(), "Dashboard");
-        mainPanel.add(new EquipmentPanel(), "Equipments");
+        mainPanel.setOpaque(false);
 
-        add(mainPanel, BorderLayout.CENTER);
+        // Sidebar
+        SidebarPanel sidebarPanel = new SidebarPanel(this);
+        sidebarPanel.setOpaque(false); // let gradient show
+        getContentPane().add(sidebarPanel, BorderLayout.WEST);
+
+// Header
+        HeaderPanel headerPanel = new HeaderPanel();
+        headerPanel.setOpaque(false);
+        getContentPane().add(headerPanel, BorderLayout.NORTH);
+
+// Dashboard
+        DashboardPanel dashboardPanel = new DashboardPanel();
+        dashboardPanel.setOpaque(false);
+        mainPanel.add(dashboardPanel, "Dashboard");
+
+        EquipmentPanel equipmentPanel = new EquipmentPanel();
+        equipmentPanel.setOpaque(false);
+        mainPanel.add(equipmentPanel, "Equipment");
+
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         revalidate();
         repaint();
@@ -78,4 +98,5 @@ public class Main extends JFrame {
     public void showPanel(String name) {
         cardLayout.show(mainPanel, name);
     }
+
 }
