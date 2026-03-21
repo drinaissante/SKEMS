@@ -1,34 +1,60 @@
 package dev.drinaissante.ui;
 
-import dev.drinaissante.util.GradientPanel;
-import dev.drinaissante.util.RoundedBorder;
+import dev.drinaissante.Main;
+import dev.drinaissante.util.ImageUtil;
+import dev.drinaissante.util.RoundedGradientPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DashboardPanel extends JPanel {
-    private final Dimension dim = new Dimension(200, 50);
+    private final Dimension dim = new Dimension(220, 50);
 
-    public DashboardPanel() {
+    private final Color[] colors = {
+            new Color(30, 55, 65),   // lighter than #0f2027, still deep teal
+            new Color(45, 75, 85),   // blend, muted teal
+            new Color(60, 95, 110),  // softened slate blue
+            new Color(80, 115, 125), // blend, muted navy
+            new Color(85, 115, 125) // darker navy end (pulled down)
+    };
+
+    private final float[] fractions = {0.0f, 0.25f, 0.5f, 0.75f, 1.0f};
+
+    public DashboardPanel(Main mainFrame) {
         setLayout(new BorderLayout());
         setOpaque(false);
 
+        Color redish = new Color(245, 150, 75);
+
         // --- Summary cards ---
         JPanel summaryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
-        summaryPanel.add(createCard("Total Equipment:", "124")); // TODO SQL
-        summaryPanel.add(createCard("Checked Out:", "18"));
-        summaryPanel.add(createCard("Pending Requests:", "5"));
-        summaryPanel.add(createCard("Overdue Items:", "2"));
+        summaryPanel.add(createCard("Total Equipment:", "124", "total_equipments.png", Color.green, Color.green)); // TODO SQL
+        summaryPanel.add(createCard("Checked Out:", "18", "summary_checked_out.png", Color.orange, Color.orange));
+        summaryPanel.add(createCard("Pending Requests:", "5", "pending.png", Color.YELLOW, Color.yellow));
+        summaryPanel.add(createCard("Overdue Items:", "2", "overdue.png", null, redish));
         summaryPanel.setOpaque(false);
 
         // --- Add Equipment button ---
-        JButton addEquipmentBtn = new JButton("+ Add Equipment");
-        addEquipmentBtn.setPreferredSize(dim);
+        RoundedGradientPanel addEquipmentPanel = new RoundedGradientPanel(colors, fractions, 12, false);
+        addEquipmentPanel.setLayout(new GridBagLayout());
 
-        JPanel topRow = new JPanel(new BorderLayout());
-        topRow.add(summaryPanel, BorderLayout.CENTER);
-        topRow.add(addEquipmentBtn, BorderLayout.EAST);
+        Dimension addBtnDim = new Dimension(150, 50);
+        addEquipmentPanel.setPreferredSize(addBtnDim);
+        addEquipmentPanel.setMaximumSize(addBtnDim);
+
+        JButton addEquipmentBtn = new JButton("+ Add Equipment");
+        addEquipmentBtn.setFocusPainted(false);
+        addEquipmentBtn.setFocusable(false);
+        addEquipmentBtn.setBorderPainted(false);
+        addEquipmentBtn.setContentAreaFilled(false);
+
+        addEquipmentPanel.add(addEquipmentBtn);
+
+        JPanel topRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
         topRow.setOpaque(false);
+
+        topRow.add(summaryPanel);
+        topRow.add(addEquipmentPanel);
 
         // --- Search bar ---
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
@@ -75,25 +101,34 @@ public class DashboardPanel extends JPanel {
         scrollPane.getViewport().setOpaque(false);
         equipmentTable.setOpaque(false);
 
-        // ✅ Add to CENTER so it fills the width below the headerBlock
         add(equipmentsPanel, BorderLayout.CENTER);
-
     }
 
-    private JPanel createCard(String title, String value) {
-        JPanel cardPanel = new JPanel();
+    private JPanel createCard(String title, String value, String path, Color iconColor, Color foreground) {
+        JPanel cardPanel = new RoundedGradientPanel(colors, fractions, 10, true);
         cardPanel.setPreferredSize(dim);
         cardPanel.setMaximumSize(dim);
 
+        // todo make it VAL over label
+
         cardPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 10));
-        cardPanel.setBorder(new RoundedBorder(10)); // rounded corners
-        cardPanel.setBackground(new Color(230, 230, 250));
+
+        ImageIcon icon;
+
+        if (iconColor == null)
+            icon = ImageUtil.loadIcon("/summaryPanel/" + path, 15, 15);
+        else
+            icon = ImageUtil.loadTintedIcon("/summaryPanel/" + path, 15, 15, iconColor);
 
         JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+        titleLabel.setFont(new Font("Montserrat", Font.BOLD, 15));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setIcon(icon);
+        titleLabel.setIconTextGap(10);
 
         JLabel valueLabel = new JLabel(value);
-        valueLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        valueLabel.setFont(new Font("Poppins", Font.PLAIN, 20));
+        valueLabel.setForeground(foreground);
 
         cardPanel.add(titleLabel);
         cardPanel.add(valueLabel);
@@ -101,6 +136,7 @@ public class DashboardPanel extends JPanel {
         return cardPanel;
     }
 
+    // TODO SQL
     private JTable getTable() {
         String[] columns = {"Item Name", "Category", "Status", "Actions"};
         Object[][] data = {
