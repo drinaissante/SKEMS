@@ -153,6 +153,8 @@ public class SidebarPanel extends GradientPanel {
         btn.setIcon(icon);
         btn.setIconTextGap(10);
 
+        btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
         btn.addActionListener(e -> mainFrame.showPanel(label));
 
         return btn;

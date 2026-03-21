@@ -29,6 +29,7 @@ public class Main extends JFrame {
     public void start() {
         // initiailize frame
         setTitle("SKEMS");
+        setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1400, 850);
         setLocationRelativeTo(null);
@@ -54,17 +55,14 @@ public class Main extends JFrame {
 
         mainPanel.setOpaque(false);
 
-        // Sidebar
+        HeaderPanel headerPanel = new HeaderPanel(this);
+
+        getContentPane().add(headerPanel, BorderLayout.NORTH);
+
         SidebarPanel sidebarPanel = new SidebarPanel(this);
         sidebarPanel.setOpaque(false); // let gradient show
         getContentPane().add(sidebarPanel, BorderLayout.WEST);
 
-// Header
-        HeaderPanel headerPanel = new HeaderPanel();
-        headerPanel.setOpaque(false);
-        getContentPane().add(headerPanel, BorderLayout.NORTH);
-
-// Dashboard
         DashboardPanel dashboardPanel = new DashboardPanel();
         dashboardPanel.setOpaque(false);
         mainPanel.add(dashboardPanel, "Dashboard");
@@ -98,5 +96,4 @@ public class Main extends JFrame {
     public void showPanel(String name) {
         cardLayout.show(mainPanel, name);
     }
-
 }
