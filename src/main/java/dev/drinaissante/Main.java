@@ -5,6 +5,7 @@ import dev.drinaissante.ui.EquipmentPanel;
 import dev.drinaissante.ui.HeaderPanel;
 import dev.drinaissante.ui.SidebarPanel;
 import dev.drinaissante.util.GradientPanel;
+import dev.drinaissante.util.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +35,9 @@ public class Main extends JFrame {
         setSize(1400, 850);
         setLocationRelativeTo(null);
         setResizable(false);
+
+        ImageIcon icon = ImageUtil.loadIcon("/sk_icon.jpg", 24, 24);
+        setIconImage(icon.getImage());
 
         setContentPane(new GradientPanel(colors, fractions, false));
 
