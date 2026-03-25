@@ -1,10 +1,11 @@
 package dev.drinaissante;
 
 import dev.drinaissante.ui.DashboardPanel;
-import dev.drinaissante.ui.EquipmentPanel;
+import dev.drinaissante.ui.equipments.EquipmentPanel;
 import dev.drinaissante.ui.HeaderPanel;
 import dev.drinaissante.ui.SidebarPanel;
-import dev.drinaissante.util.GradientPanel;
+import dev.drinaissante.ui.equipments.RegisterDialog;
+import dev.drinaissante.util.ui.GradientPanel;
 import dev.drinaissante.util.ImageUtil;
 
 import javax.swing.*;

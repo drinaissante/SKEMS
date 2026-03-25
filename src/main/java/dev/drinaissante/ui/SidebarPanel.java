@@ -1,7 +1,7 @@
 package dev.drinaissante.ui;
 
 import dev.drinaissante.Main;
-import dev.drinaissante.util.GradientPanel;
+import dev.drinaissante.util.ui.GradientPanel;
 import dev.drinaissante.util.ImageUtil;
 
 import javax.swing.*;
