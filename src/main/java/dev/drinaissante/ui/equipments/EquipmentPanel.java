@@ -1,4 +1,4 @@
-package dev.drinaissante.ui;
+package dev.drinaissante.ui.equipments;
 
 import javax.swing.*;
 import java.awt.*;

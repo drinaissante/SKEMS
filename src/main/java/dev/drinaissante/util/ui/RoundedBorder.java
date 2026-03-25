@@ -1,4 +1,4 @@
-package dev.drinaissante.util;
+package dev.drinaissante.util.ui;
 
 import javax.swing.border.Border;
 import java.awt.*;
