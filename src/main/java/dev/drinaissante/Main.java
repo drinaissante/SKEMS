@@ -1,12 +1,11 @@
 package dev.drinaissante;
 
 import dev.drinaissante.ui.DashboardPanel;
-import dev.drinaissante.ui.equipments.EquipmentPanel;
 import dev.drinaissante.ui.HeaderPanel;
 import dev.drinaissante.ui.SidebarPanel;
-import dev.drinaissante.ui.equipments.RegisterDialog;
-import dev.drinaissante.util.ui.GradientPanel;
+import dev.drinaissante.ui.equipments.EquipmentPanel;
 import dev.drinaissante.util.ImageUtil;
+import dev.drinaissante.util.ui.GradientPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +57,7 @@ public class Main extends JFrame {
         if (mainPanel == null)
             mainPanel = new JPanel(cardLayout);
 
-        mainPanel.setOpaque(false); // test
+        mainPanel.setOpaque(false);
 
         HeaderPanel headerPanel = new HeaderPanel(this);
 
