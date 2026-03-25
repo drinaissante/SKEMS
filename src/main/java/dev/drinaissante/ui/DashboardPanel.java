@@ -1,15 +1,17 @@
 package dev.drinaissante.ui;
 
 import dev.drinaissante.Main;
+import dev.drinaissante.ui.equipments.RegisterDialog;
 import dev.drinaissante.util.ImageUtil;
-import dev.drinaissante.util.RoundedGradientPanel;
-import dev.drinaissante.util.RoundedLabel;
+import dev.drinaissante.util.ui.RoundedGradientPanel;
+import dev.drinaissante.util.ui.RoundedLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class DashboardPanel extends JPanel {
     private final Dimension dim = new Dimension(220, 50);
+    private final Main mainFrame;
 
     private final Color[] colors = {
             new Color(30, 55, 65),   // lighter than #0f2027, still deep teal
@@ -33,6 +35,8 @@ public class DashboardPanel extends JPanel {
     };
 
     public DashboardPanel(Main mainFrame) {
+        this.mainFrame = mainFrame;
+
         setLayout(new BorderLayout());
         setOpaque(false);
 
@@ -132,11 +136,18 @@ public class DashboardPanel extends JPanel {
         addEquipmentPanel.setPreferredSize(addBtnDim);
         addEquipmentPanel.setMaximumSize(addBtnDim);
 
+        // TODO
         JButton addEquipmentBtn = new JButton("+ Add Equipment");
         addEquipmentBtn.setFocusPainted(false);
         addEquipmentBtn.setFocusable(false);
         addEquipmentBtn.setBorderPainted(false);
         addEquipmentBtn.setContentAreaFilled(false);
+        addEquipmentBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        addEquipmentBtn.addActionListener(e -> {
+            RegisterDialog dialog = new RegisterDialog(mainFrame);
+            dialog.setVisible(true);
+        });
 
         addEquipmentPanel.add(addEquipmentBtn);
         return addEquipmentPanel;
