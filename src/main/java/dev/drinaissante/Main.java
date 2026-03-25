@@ -58,7 +58,7 @@ public class Main extends JFrame {
         if (mainPanel == null)
             mainPanel = new JPanel(cardLayout);
 
-        mainPanel.setOpaque(false);
+        mainPanel.setOpaque(false); // test
 
         HeaderPanel headerPanel = new HeaderPanel(this);
 
