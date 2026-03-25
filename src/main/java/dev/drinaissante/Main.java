@@ -13,11 +13,49 @@ import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 
-    public float[] fractions = {0.0f, 0.5f, 1.0f};
+    //    public float[] fractions = {
+//            0.0f, 0.5f, 1.0f
+//    };
+    /*
+ 0.000%, #272530 8.333%, #24222e 16.667%, #201f2b 25.000%, #1c1b27 33.333%, #181624 41.667%, #141220 50.000%, #100e1c 58.333%, #0c0a18 66.667%, #080614 75.000%, #050311 83.333%, #02000e 91.667%, #00000b 100.000%);
+     */
+//    public Color[] colors = {
+//            Color.decode("#0f2027"),   // cyan top
+//            Color.decode("#203a43"),   // slate blue middle
+//            Color.decode("#2c5364")    // navy bottom
+//    };
+
+    public float[] fractions = {
+            0.000f,   // 0 / 100
+            0.083f,   // 8.333 / 100
+            0.167f,   // 16.667 / 100
+            0.250f,   // 25.000 / 100
+            0.333f,   // 33.333 / 100
+            0.417f,   // 41.667 / 100
+            0.500f,   // 50.000 / 100
+            0.583f,   // 58.333 / 100
+            0.667f,   // 66.667 / 100
+            0.750f,   // 75.000 / 100
+            0.833f,   // 83.333 / 100
+            0.917f,   // 91.667 / 100
+            1.000f    // 100.000 / 100
+    };
+
+
     public Color[] colors = {
-            Color.decode("#0f2027"),   // cyan top
-            Color.decode("#203a43"),   // slate blue middle
-            Color.decode("#2c5364")    // navy bottom
+            Color.decode("#292832"),
+            Color.decode("#272530"),
+            Color.decode("#24222e"),
+            Color.decode("#201f2b"),
+            Color.decode("#1c1b27"),
+            Color.decode("#181624"),
+            Color.decode("#141220"),
+            Color.decode("#100e1c"),
+            Color.decode("#0c0a18"),
+            Color.decode("#080614"),
+            Color.decode("#050311"),
+            Color.decode("#02000e"),
+            Color.decode("#00000b")
     };
 
     private CardLayout cardLayout;
@@ -39,7 +77,7 @@ public class Main extends JFrame {
         ImageIcon icon = ImageUtil.loadIcon("/sk_icon.jpg", 24, 24);
         setIconImage(icon.getImage());
 
-        setContentPane(new GradientPanel(colors, fractions, false));
+        setContentPane(new GradientPanel(colors, fractions, 225));
 
         buildUI();
 

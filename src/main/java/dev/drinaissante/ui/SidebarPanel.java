@@ -12,7 +12,7 @@ public class SidebarPanel extends GradientPanel {
     private final Main mainFrame;
 
     public SidebarPanel(Main mainFrame) {
-        super(Color.decode("#0f2027"), Color.decode("#0f2035"), false);
+        super(Color.decode("#0f2027"), Color.decode("#0f2035"), 0);
         this.mainFrame = mainFrame;
 
         setOpaque(false);

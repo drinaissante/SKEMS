@@ -6,18 +6,17 @@ import java.awt.*;
 public class GradientPanel extends JPanel {
     private final Color[] colors;
     private final float[] fractions;
-    private final boolean horizontal; // true = left→right, false = top→bottom
+    private final double angle; // in degrees
 
     // Constructor for 2 colors (backward compatibility)
-    public GradientPanel(Color startColor, Color endColor, boolean horizontal) {
-        this(new Color[]{startColor, endColor}, new float[]{0.0f, 1.0f}, horizontal);
+    public GradientPanel(Color startColor, Color endColor, double angle) {
+        this(new Color[]{startColor, endColor}, new float[]{0.0f, 1.0f}, angle);
     }
 
-    // Constructor for multiple colors
-    public GradientPanel(Color[] colors, float[] fractions, boolean horizontal) {
+    public GradientPanel(Color[] colors, float[] fractions, double angle) {
         this.colors = colors;
         this.fractions = fractions;
-        this.horizontal = horizontal;
+        this.angle = angle;
         setOpaque(false);
     }
 
@@ -27,16 +26,23 @@ public class GradientPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        LinearGradientPaint lgp;
-        if (horizontal) {
-            lgp = new LinearGradientPaint(
-                    0, 0, getWidth(), 0, fractions, colors);
-        } else {
-            lgp = new LinearGradientPaint(
-                    0, 0, 0, getHeight(), fractions, colors);
-        }
+        int w = getWidth();
+        int h = getHeight();
+
+        // Convert angle to radians
+        double rad = Math.toRadians(angle);
+
+        // Compute gradient vector based on angle
+        float x1 = (float) ((double) w / 2 + Math.cos(rad) * w / 2);
+        float y1 = (float) ((double) h / 2 + Math.sin(rad) * h / 2);
+        float x0 = (float) ((double) w / 2 - Math.cos(rad) * w / 2);
+        float y0 = (float) ((double) h / 2 - Math.sin(rad) * h / 2);
+
+        LinearGradientPaint lgp = new LinearGradientPaint(
+                x1, y1, x0, y0, fractions, colors);
 
         g2d.setPaint(lgp);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
+        g2d.fillRect(0, 0, w, h);
     }
 }
+
