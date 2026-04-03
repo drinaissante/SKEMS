@@ -3,11 +3,11 @@ package dev.drinaissante.scenes;
 import dev.drinaissante.Main;
 import dev.drinaissante.managers.SceneManager;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,17 +16,8 @@ import javafx.scene.text.TextAlignment;
 
 public class MainScene extends SKScene {
 
-    private final BorderPane root = new BorderPane();
-
     public MainScene(SceneManager sceneManager) {
         super(sceneManager, "Main");
-
-        this.scene = new Scene(root, 1280, 720);
-        scene.getStylesheets().add(Main.STYLES);
-    }
-
-    public BorderPane getRoot() {
-        return root;
     }
 
     @Override
@@ -43,12 +34,12 @@ public class MainScene extends SKScene {
 
         Label welcome = new Label("Welcome to SKEMS!");
         welcome.setFont(Font.font("SANS_SERIF", FontWeight.BOLD, 45));
-        welcome.setTextFill(Color.WHITE);
+        welcome.setTextFill(Color.valueOf("#d9d9d9"));
         welcome.setTextAlignment(TextAlignment.CENTER);
 
         Label selectRole = new Label("Select your role:");
         selectRole.setFont(Font.font("SANS_SERIF", FontWeight.NORMAL, 20));
-        selectRole.setTextFill(Color.WHITE);
+        selectRole.setTextFill(Color.valueOf("#d9d9d9"));
 
         Button officerBtn = new Button("Officer");
         officerBtn.setPrefWidth(250);
@@ -58,13 +49,23 @@ public class MainScene extends SKScene {
         memberBtn.setPrefWidth(250);
         memberBtn.getStyleClass().add("role-btn");
 
+        // register / login
+
         Button registerBtn = new Button("REGISTER");
         registerBtn.setPrefWidth(200);
-        registerBtn.getStyleClass().add("register-btn");
+        registerBtn.getStyleClass().add("btn");
+
+        Button loginBtn = new Button("LOGIN");
+        loginBtn.setMinWidth(200);
+        loginBtn.getStyleClass().add("btn");
 
         registerBtn.setOnAction(event -> sceneManager.switchScenes(sceneManager.getRegistrationScene()));
+        loginBtn.setOnAction(event -> sceneManager.switchScenes(sceneManager.getLoginScene()));
 
-        VBox center = new VBox(15, logo, welcome, selectRole, officerBtn, memberBtn, registerBtn);
+        HBox registerLogin = new HBox(50, registerBtn, loginBtn);
+        registerLogin.setAlignment(Pos.CENTER);
+
+        VBox center = new VBox(15, logo, welcome, selectRole, officerBtn, memberBtn, registerLogin);
         center.setAlignment(Pos.CENTER);
 
         root.setCenter(center);

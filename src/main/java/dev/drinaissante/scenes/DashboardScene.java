@@ -1,10 +1,8 @@
 package dev.drinaissante.scenes;
 
-import dev.drinaissante.Main;
 import dev.drinaissante.managers.SceneManager;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -19,9 +17,6 @@ public class DashboardScene extends SKScene {
 
     public DashboardScene(SceneManager sceneManager) {
         super(sceneManager, "Dashboard");
-
-        this.scene = new Scene(root, 1280, 720);
-        scene.getStylesheets().add(Main.STYLES);
     }
 
     @Override

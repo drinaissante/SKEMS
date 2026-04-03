@@ -1,7 +1,6 @@
 package dev.drinaissante;
 
 import dev.drinaissante.model.Delta;
-import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -28,9 +27,6 @@ public class TitleBar {
     }
 
     public void setup() {
-        root.setPrefHeight(30);
-        root.setMinHeight(30);
-        root.setMaxHeight(30);
         root.setMaxWidth(Double.MAX_VALUE);
 
         root.getStyleClass().add("title-bar");
