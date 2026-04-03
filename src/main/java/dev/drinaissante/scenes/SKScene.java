@@ -13,31 +13,35 @@ public abstract class SKScene {
     protected final SceneManager sceneManager;
     protected final String title;
     protected final BorderPane root = new BorderPane();
-    protected final Scene scene;
     private final StackPane stackPane = new StackPane();
     private final VBox toastContainer = new VBox(10);
+    protected Scene scene;
     protected boolean doneSetup = false;
+    private boolean toastReady = false;    // tracks setupToast()
 
     public SKScene(SceneManager sceneManager, String title) {
         this.sceneManager = sceneManager;
         this.title = title;
 
-        stackPane.getChildren().add(root);
-        setupToast();
+        stackPane.getChildren().addFirst(root);
 
         this.scene = new Scene(stackPane, 1280, 720);
         scene.getStylesheets().add(Main.STYLES);
     }
 
-    protected void setupToast() {
+    public void setupToast() {
+        if (toastReady) return;
+
         toastContainer.setPadding(new Insets(20));
         toastContainer.setMouseTransparent(true);
-
         toastContainer.setAlignment(Pos.BOTTOM_LEFT);
         toastContainer.setFillWidth(false);
 
+        System.out.println("setupToast " + title + " = " + stackPane.getChildren().size());
         stackPane.getChildren().add(toastContainer);
         StackPane.setAlignment(toastContainer, Pos.BOTTOM_LEFT);
+
+        toastReady = true;  // <-- use separate flag here
     }
 
     public VBox getToastContainer() {

@@ -30,8 +30,10 @@ public class SceneManager {
     }
 
     public void switchScenes(SKScene skScene) {
-        if (!skScene.isDoneSetup())
+        if (!skScene.isDoneSetup()) {
+            skScene.setupToast();
             skScene.setup();
+        }
 
         this.currentScene = skScene.getScene();
         stage.setScene(skScene.getScene());

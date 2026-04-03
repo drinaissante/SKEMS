@@ -5,14 +5,18 @@ import dev.drinaissante.managers.SceneManager;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+
+import java.util.Objects;
 
 public class MainScene extends SKScene {
 
@@ -21,8 +25,26 @@ public class MainScene extends SKScene {
     }
 
     @Override
+    public void setupToast() {
+        ImageView gifBackground = new ImageView(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/main.gif"))));
+        gifBackground.fitWidthProperty().bind(getStackPane().widthProperty());
+        gifBackground.fitHeightProperty().bind(getStackPane().heightProperty());
+        gifBackground.setPreserveRatio(false);
+
+        getStackPane().getChildren().addFirst(gifBackground);
+
+        Rectangle dimmer = new Rectangle(scene.getWidth(), scene.getHeight(), Color.color(0, 0, 0, 0.8));
+        dimmer.widthProperty().bind(getStackPane().widthProperty());
+        dimmer.heightProperty().bind(getStackPane().heightProperty());
+
+        getStackPane().getChildren().add(1, dimmer); // sits above GIF, below root
+
+        super.setupToast();
+    }
+
+    @Override
     public void setup() {
-        root.setStyle("-fx-background-color: linear-gradient(to right, #000000 5%, #c89116 100%);");
+        root.setCache(true);
 
         BorderPane titleBar = sceneManager.getTitleBar().getRoot();
         root.setTop(titleBar);
