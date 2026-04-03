@@ -1,10 +1,7 @@
 package dev.drinaissante.managers;
 
 import dev.drinaissante.TitleBar;
-import dev.drinaissante.scenes.DashboardScene;
-import dev.drinaissante.scenes.MainScene;
-import dev.drinaissante.scenes.RegistrationScene;
-import dev.drinaissante.scenes.SKScene;
+import dev.drinaissante.scenes.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -16,6 +13,8 @@ public class SceneManager {
     private final DashboardScene dashboardScene;
     private final MainScene mainScene;
     private final RegistrationScene registrationScene;
+    private final LoginScene loginScene;
+    private final ForgotPassScene forgotPassScene;
 
     private Scene currentScene;
 
@@ -26,10 +25,13 @@ public class SceneManager {
         this.dashboardScene = new DashboardScene(this);
         this.mainScene = new MainScene(this);
         this.registrationScene = new RegistrationScene(this);
+        this.loginScene = new LoginScene(this);
+        this.forgotPassScene = new ForgotPassScene(this);
     }
 
     public void switchScenes(SKScene skScene) {
-        skScene.setup();
+        if (!skScene.isDoneSetup())
+            skScene.setup();
 
         this.currentScene = skScene.getScene();
         stage.setScene(skScene.getScene());
@@ -51,6 +53,14 @@ public class SceneManager {
 
     public RegistrationScene getRegistrationScene() {
         return registrationScene;
+    }
+
+    public LoginScene getLoginScene() {
+        return loginScene;
+    }
+
+    public ForgotPassScene getForgotPassScene() {
+        return forgotPassScene;
     }
 
     public Scene getCurrentScene() {
