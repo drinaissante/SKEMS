@@ -16,6 +16,8 @@ public class Main extends Application {
     public static final Image ICON_NO_BG = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/sk_icon_no_bg.png")));
     public static final String STYLES = Objects.requireNonNull(Main.class.getResource("/styles.css")).toExternalForm();
 
+    public static Stage STAGE;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -32,6 +34,8 @@ public class Main extends Application {
         });
 
         stage.setTitle("SKEMS");
+
+        STAGE = stage;
 
         SceneManager sceneManager = new SceneManager(stage);
 

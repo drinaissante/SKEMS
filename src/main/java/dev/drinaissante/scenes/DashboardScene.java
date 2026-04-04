@@ -2,10 +2,17 @@ package dev.drinaissante.scenes;
 
 import dev.drinaissante.Main;
 import dev.drinaissante.managers.SceneManager;
+import dev.drinaissante.tabs.DashboardTab;
+import dev.drinaissante.tabs.EquipmentsTab;
+import dev.drinaissante.tabs.SKTab;
 import dev.drinaissante.util.Fonts;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,6 +26,8 @@ import java.util.Objects;
 
 public class DashboardScene extends SKScene {
 
+    private SKTab equipmentsTab, dashboardTab;
+
     public DashboardScene(SceneManager sceneManager) {
         super(sceneManager, "Dashboard");
     }
@@ -31,16 +40,25 @@ public class DashboardScene extends SKScene {
         BorderPane titleBar = sceneManager.getTitleBar().getRoot();
         root.setTop(titleBar);
 
+        // setup tabs
+        setupTabs();
+
         // side panel
         VBox sidePanel = setupSidePanel();
         root.setLeft(sidePanel);
 
         // main content (dashboard)
-        VBox dashboard = setupMainContent();
-        root.setCenter(dashboard);
+        root.setCenter(dashboardTab.getNode());
     }
 
-    // TODO logout profile, add other tabs
+    public void setupTabs() {
+        this.dashboardTab = new DashboardTab().build();
+
+        // TODO actual data / value
+        this.equipmentsTab = new EquipmentsTab().build();
+    }
+
+    // TODO logout profile auth, add other tabs
     private VBox setupSidePanel() {
         VBox sidebar = new VBox();
         sidebar.setPrefWidth(275);
@@ -62,7 +80,11 @@ public class DashboardScene extends SKScene {
 
         ToggleGroup group = new ToggleGroup();
         dashboardBtn.setToggleGroup(group);
+        dashboardBtn.setOnAction(e -> switchMainContent(dashboardTab.getNode()));
+
         equipmentBtn.setToggleGroup(group);
+        equipmentBtn.setOnAction(e -> switchMainContent(equipmentsTab.getNode()));
+
         borrowBtn.setToggleGroup(group);
         reservationsBtn.setToggleGroup(group);
         historyLogBtn.setToggleGroup(group);
@@ -103,44 +125,14 @@ public class DashboardScene extends SKScene {
         return sidebar;
     }
 
-    private VBox setupMainContent() {
-        final VBox mainContent = new VBox();
-
-        mainContent.setStyle("-fx-background-color: linear-gradient(to right, #292832 0.000%, #272530 8.333%, #24222e 16.667%, #201f2b 25.000%, #1c1b27 33.333%, #181624 41.667%, #141220 50.000%, #100e1c 58.333%, #0c0a18 66.667%, #080614 75.000%, #050311 83.333%, #02000e 91.667%, #00000b 100.000%);" +
-                "-fx-padding: 20;");
-        mainContent.setSpacing(20);
-
-        Label statsTitle = new Label("Equipment Stats");
-        statsTitle.setStyle("-fx-text-fill: white; -fx-font-size: 16px;");
-
-        HBox statsPanel = new HBox(20);
-        statsPanel.setAlignment(Pos.CENTER_LEFT);
-
-        Label available = new Label("Available: 124");
-        Label checkedOut = new Label("Checked Out: 18");
-        Label pending = new Label("Pending: 5");
-        Label overdue = new Label("Overdue: 2");
-
-        for (Label stat : List.of(available, checkedOut, pending, overdue)) {
-            stat.setStyle("-fx-background-color: linear-gradient(to right, #292832 0.000%, #141220 50.000%, #00000b 100.000%); " +
-                    "-fx-padding: 20; -fx-text-fill: white;");
-        }
-
-        statsPanel.getChildren().addAll(available, checkedOut, pending, overdue);
-
-        mainContent.getChildren().addAll(statsTitle, statsPanel);
-
-        return mainContent;
-    }
-
     // TODO the profile here
     private HBox setupProfile() {
         // TODO fetch profile picture, name
         final Image profile = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/profile.jpg")));
 
         ImageView profileView = new ImageView(profile);
-        profileView.setFitWidth(90);
-        profileView.setFitHeight(90);
+        profileView.setFitWidth(70);
+        profileView.setFitHeight(70);
         profileView.setPreserveRatio(false);
 
         final Circle clip = new Circle();
@@ -179,4 +171,9 @@ public class DashboardScene extends SKScene {
 
         return profileBox;
     }
+
+    private void switchMainContent(Node node) {
+        root.setCenter(node);
+    }
+
 }

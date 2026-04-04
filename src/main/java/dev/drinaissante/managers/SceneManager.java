@@ -2,6 +2,7 @@ package dev.drinaissante.managers;
 
 import dev.drinaissante.TitleBar;
 import dev.drinaissante.scenes.*;
+import dev.drinaissante.scenes.DashboardScene;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
