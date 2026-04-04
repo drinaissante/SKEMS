@@ -75,6 +75,11 @@ public class MainScene extends SKScene {
         memberBtn.setPrefWidth(250);
         memberBtn.getStyleClass().add("role-btn");
 
+        // TODO make sure to remember what button is pushed (if member or officer)
+
+        // for now, officerBtn -> admin side
+        officerBtn.setOnMouseClicked(event -> sceneManager.switchScenes(sceneManager.getDashboardScene()));
+
         // register / login
 
         Button registerBtn = new Button("REGISTER");

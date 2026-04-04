@@ -140,6 +140,7 @@ public class LoginScene extends SKScene {
         VBox center = new VBox(mainText);
         center.setAlignment(Pos.CENTER);
 
+        // TODO replace shooter to name
         Text creditText = new Text("shot by: shooter");
         creditText.setFont(Font.font(Fonts.COMIC_NEUE, 20));
         creditText.setFill(Color.valueOf("#d9d9d9"));

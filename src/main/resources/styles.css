@@ -5,10 +5,10 @@
     -fx-font-weight: bold;
 }
 .sidebar-toggle:hover {
-    -fx-background-color: #333333;
+    -fx-background-color: #caa453d0;
 }
 .sidebar-toggle:selected {
-    -fx-background-color: #555555;
+    -fx-background-color: #c89116;
 }
 
 .title-bar {
