@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
@@ -41,6 +43,23 @@ public class EquipmentsTab implements SKTab {
         // searchBox
         HBox searchBox = buildSearchBox();
 
+        // sort
+        ComboBox<String> sortBy = new ComboBox<>();
+        sortBy.setPrefWidth(200);
+        sortBy.getItems().addAll(STATUS);
+        sortBy.setPromptText("Sort By");
+        sortBy.setStyle("-fx-background-color: #a6a6a6; -fx-padding: 5;");
+
+        sortBy.setOnAction(event -> {
+            // TODO
+        });
+
+        Text sortByText = new Text("Sort By");
+        sortByText.setFont(Font.font("Sans_Serif", FontWeight.BOLD, 18));
+        sortByText.setFill(Color.WHITE);
+
+        HBox searchWithSort = new HBox(20, searchBox, new VBox(sortByText, sortBy));
+
         ScrollPane scrollPane = setupEquipmentScrollPane();
 
         HBox statsPanel = new HBox(20);
@@ -71,10 +90,9 @@ public class EquipmentsTab implements SKTab {
         Region VSpacer = new Region();
         VBox.setVgrow(VSpacer, Priority.ALWAYS);
 
-        VBox content = new VBox(30, searchBox, scrollPane, VSpacer, statsPanel);
+        VBox content = new VBox(30, searchWithSort, scrollPane, VSpacer, statsPanel);
 
         mainContent.setCenter(content);
-        // TODO the equipments inventory list
 
 //        return new StackPane(overlay, mainContent);
         return this;
@@ -102,16 +120,6 @@ public class EquipmentsTab implements SKTab {
                 """);
         searchBox.setMaxWidth(Region.USE_PREF_SIZE);
 
-        ComboBox<String> sortBy = new ComboBox<>();
-        sortBy.setPrefWidth(400);
-        sortBy.setPrefWidth(400);
-        sortBy.getItems().addAll(STATUS);
-        sortBy.setPromptText("Sort By");
-
-        sortBy.setOnAction(event -> {
-            // TODO
-        });
-
         return searchBox;
     }
 
@@ -135,7 +143,12 @@ public class EquipmentsTab implements SKTab {
         }
 
         ScrollPane scrollPane = new ScrollPane(equipmentGrid);
-        scrollPane.setStyle("-fx-background-color: transparent;");
+        scrollPane.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-background-color: transparent;" +
+                        "-fx-control-inner-background: transparent;"
+        );
+        scrollPane.setBackground(Background.EMPTY);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setPannable(true);
@@ -162,7 +175,7 @@ public class EquipmentsTab implements SKTab {
 
     // TODO get the image from database
     private VBox getItem(String status, String name, String owner) {
-        VBox item = new VBox(10);
+        VBox item = new VBox(20);
         item.getStyleClass().add("equipment-item");
 
         // TODO fetch image | add skeleton
@@ -173,7 +186,7 @@ public class EquipmentsTab implements SKTab {
         imageView.setPreserveRatio(true);
 
         HBox imageCenter = new HBox(imageView);
-        imageCenter.setAlignment(Pos.CENTER_LEFT);
+        imageCenter.setAlignment(Pos.CENTER);
 
         Text nameText = new Text(name);
         Text ownerText = new Text("Owner: " + owner);
@@ -184,24 +197,21 @@ public class EquipmentsTab implements SKTab {
         item.getChildren().addAll(imageCenter, nameBox);
 
         item.setCursor(Cursor.HAND);
+        Popup popup = new Popup();
+        VBox popupContent = new VBox();
 
-        item.setOnMouseClicked(e -> {
-            Popup popup = new Popup();
-            VBox popupContent = new VBox();
+        Label text = new Label("Details for " + name);
+        text.setTextFill(Color.WHITE);
 
-            Label text = new Label("Details for " + name);
-            text.setTextFill(Color.WHITE);
+        popupContent.getChildren().add(text);
 
-            popupContent.getChildren().add(text);
+        popupContent.setOnMouseExited(event -> popup.hide());
 
-            popupContent.setOnMouseExited(event -> popup.hide());
+        popupContent.setStyle("-fx-background-color: rgba(0,0,0,0.6); -fx-padding: 40;");
+        popup.getContent().add(popupContent);
+        popup.setAutoHide(true);
 
-            popupContent.setStyle("-fx-background-color: rgba(0,0,0,0.6); -fx-padding: 40;");
-            popup.getContent().add(popupContent);
-
-            popup.setAutoHide(true);
-            popup.show(Main.STAGE, e.getScreenX() + 10, e.getScreenY());
-        });
+        item.setOnMouseClicked(e -> popup.show(Main.STAGE, e.getScreenX() + 10, e.getScreenY()));
         return item;
     }
 }
