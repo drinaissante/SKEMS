@@ -83,3 +83,21 @@
 .text-field:hover {
     -fx-background-color: #8c8c8c;
 }
+
+.equipment-stats {
+    -fx-font-family: "Comic Neue";
+    -fx-background-color: #a6a6a6;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-padding: 15 15 15 15;
+}
+
+.equipment-item {
+    -fx-background-color: #a6a6a6;
+    -fx-text-fill: white;
+    -fx-font-family: "Comic Neue";
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+}
