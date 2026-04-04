@@ -19,19 +19,27 @@ import javafx.scene.text.TextAlignment;
 import java.util.Objects;
 
 public class MainScene extends SKScene {
+    private final ImageView logo = new ImageView(Main.ICON_NO_BG);
 
     public MainScene(SceneManager sceneManager) {
         super(sceneManager, "Main");
+
+        logo.setFitWidth(150);
+        logo.setPreserveRatio(true);
+
+        ImageView gifBackground = new ImageView(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/gifs/main.gif"))));
+        gifBackground.fitWidthProperty().bind(getStackPane().widthProperty());
+        gifBackground.fitHeightProperty().bind(getStackPane().heightProperty());
+        gifBackground.setPreserveRatio(false);
+        gifBackground.setSmooth(true);
+
+        getStackPane().getChildren().addFirst(gifBackground);
     }
 
     @Override
     public void setupToast() {
-        ImageView gifBackground = new ImageView(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/main.gif"))));
-        gifBackground.fitWidthProperty().bind(getStackPane().widthProperty());
-        gifBackground.fitHeightProperty().bind(getStackPane().heightProperty());
-        gifBackground.setPreserveRatio(false);
-
-        getStackPane().getChildren().addFirst(gifBackground);
+        if (toastReady)
+            return;
 
         Rectangle dimmer = new Rectangle(scene.getWidth(), scene.getHeight(), Color.color(0, 0, 0, 0.8));
         dimmer.widthProperty().bind(getStackPane().widthProperty());
@@ -50,13 +58,9 @@ public class MainScene extends SKScene {
         root.setTop(titleBar);
 
         // logo above welcome
-        ImageView logo = new ImageView(Main.ICON_NO_BG);
-        logo.setFitWidth(150);
-        logo.setPreserveRatio(true);
-
         Label welcome = new Label("Welcome to SKEMS!");
         welcome.setFont(Font.font("SANS_SERIF", FontWeight.BOLD, 45));
-        welcome.setTextFill(Color.valueOf("#d9d9d9"));
+        welcome.setTextFill(Color.valueOf("#ffd870"));
         welcome.setTextAlignment(TextAlignment.CENTER);
 
         Label selectRole = new Label("Select your role:");

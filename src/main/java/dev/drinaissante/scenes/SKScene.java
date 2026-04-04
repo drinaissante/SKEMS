@@ -17,7 +17,7 @@ public abstract class SKScene {
     private final VBox toastContainer = new VBox(10);
     protected Scene scene;
     protected boolean doneSetup = false;
-    private boolean toastReady = false;    // tracks setupToast()
+    protected boolean toastReady = false;    // tracks setupToast()
 
     public SKScene(SceneManager sceneManager, String title) {
         this.sceneManager = sceneManager;
@@ -27,6 +27,9 @@ public abstract class SKScene {
 
         this.scene = new Scene(stackPane, 1280, 720);
         scene.getStylesheets().add(Main.STYLES);
+
+        root.setCache(true);
+        stackPane.setCache(true);
     }
 
     public void setupToast() {
@@ -37,7 +40,6 @@ public abstract class SKScene {
         toastContainer.setAlignment(Pos.BOTTOM_LEFT);
         toastContainer.setFillWidth(false);
 
-        System.out.println("setupToast " + title + " = " + stackPane.getChildren().size());
         stackPane.getChildren().add(toastContainer);
         StackPane.setAlignment(toastContainer, Pos.BOTTOM_LEFT);
 

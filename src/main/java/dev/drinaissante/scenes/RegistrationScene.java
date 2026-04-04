@@ -19,10 +19,14 @@ import java.util.List;
 
 public class RegistrationScene extends SKScene {
 
+    private final ImageView logo = new ImageView(Main.ICON_NO_BG);
     private static final List<String> OFFICER_ROLES = List.of("Photographer", "Videographer", "Video Editor", "Graphics Designer", "Layout Editor");
 
     public RegistrationScene(SceneManager sceneManager) {
         super(sceneManager, "Registration");
+
+        logo.setFitWidth(80);
+        logo.setPreserveRatio(true);
     }
 
     @Override
@@ -33,11 +37,7 @@ public class RegistrationScene extends SKScene {
         BorderPane titleBar = sceneManager.getTitleBar().getRoot();
         root.setTop(titleBar);
 
-        // logo above welcome
-        ImageView logo = new ImageView(Main.ICON_NO_BG);
-        logo.setFitWidth(80);
-        logo.setPreserveRatio(true);
-
+        // logo above text
         Label registration = new Label("SKEMS Registration");
         registration.setFont(Font.font("SANS_SERIF", FontWeight.BOLD, 33));
         registration.setTextFill(Color.valueOf("#d9d9d9"));

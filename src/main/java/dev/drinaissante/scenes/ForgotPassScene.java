@@ -17,8 +17,13 @@ import javafx.scene.text.TextAlignment;
 
 public class ForgotPassScene extends SKScene {
 
+    private final ImageView logo = new ImageView(Main.ICON_NO_BG);
+
     public ForgotPassScene(SceneManager sceneManager) {
         super(sceneManager, "Forgot Password");
+
+        logo.setFitWidth(80);
+        logo.setPreserveRatio(true);
     }
 
     @Override
@@ -29,11 +34,7 @@ public class ForgotPassScene extends SKScene {
         BorderPane titleBar = sceneManager.getTitleBar().getRoot();
         root.setTop(titleBar);
 
-        // logo above welcome
-        ImageView logo = new ImageView(Main.ICON_NO_BG);
-        logo.setFitWidth(80);
-        logo.setPreserveRatio(true);
-
+        // logo above text
         Label resetSkemsPassword = new Label("Reset SKEMS Password");
         resetSkemsPassword.setFont(Font.font("SANS_SERIF", FontWeight.BOLD, 28));
         resetSkemsPassword.setTextFill(Color.valueOf("#d9d9d9"));
