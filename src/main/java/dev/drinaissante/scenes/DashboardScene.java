@@ -2,6 +2,7 @@ package dev.drinaissante.scenes;
 
 import dev.drinaissante.Main;
 import dev.drinaissante.managers.SceneManager;
+import dev.drinaissante.tabs.BorrowRequestsTab;
 import dev.drinaissante.tabs.DashboardTab;
 import dev.drinaissante.tabs.EquipmentsTab;
 import dev.drinaissante.tabs.SKTab;
@@ -26,7 +27,7 @@ import java.util.Objects;
 
 public class DashboardScene extends SKScene {
 
-    private SKTab equipmentsTab, dashboardTab;
+    private SKTab equipmentsTab, dashboardTab, borrowRequestsTab;
 
     public DashboardScene(SceneManager sceneManager) {
         super(sceneManager, "Dashboard");
@@ -56,6 +57,8 @@ public class DashboardScene extends SKScene {
 
         // TODO actual data / value
         this.equipmentsTab = new EquipmentsTab().build();
+
+        this.borrowRequestsTab = new BorrowRequestsTab().build();
     }
 
     // TODO logout profile auth, add other tabs
@@ -86,6 +89,8 @@ public class DashboardScene extends SKScene {
         equipmentBtn.setOnAction(e -> switchMainContent(equipmentsTab.getNode()));
 
         borrowBtn.setToggleGroup(group);
+        borrowBtn.setOnAction(e -> switchMainContent(borrowRequestsTab.getNode()));
+
         reservationsBtn.setToggleGroup(group);
         historyLogBtn.setToggleGroup(group);
         reportsBtn.setToggleGroup(group);
