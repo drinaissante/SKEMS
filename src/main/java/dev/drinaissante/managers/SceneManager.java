@@ -3,6 +3,7 @@ package dev.drinaissante.managers;
 import dev.drinaissante.TitleBar;
 import dev.drinaissante.scenes.*;
 import dev.drinaissante.scenes.DashboardScene;
+import dev.drinaissante.scenes.members.MemberDashboardScene;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -17,6 +18,9 @@ public class SceneManager {
     private final LoginScene loginScene;
     private final ForgotPassScene forgotPassScene;
 
+
+    private final MemberDashboardScene memberDashboardScene;
+
     private Scene currentScene;
 
     public SceneManager(Stage stage) {
@@ -28,6 +32,8 @@ public class SceneManager {
         this.registrationScene = new RegistrationScene(this);
         this.loginScene = new LoginScene(this);
         this.forgotPassScene = new ForgotPassScene(this);
+
+        this.memberDashboardScene = new MemberDashboardScene(this);
     }
 
     public void switchScenes(SKScene skScene) {
@@ -52,6 +58,10 @@ public class SceneManager {
 
     public MainScene getMainScene() {
         return mainScene;
+    }
+
+    public MemberDashboardScene getMemberDashboardScene() {
+        return memberDashboardScene;
     }
 
     public RegistrationScene getRegistrationScene() {

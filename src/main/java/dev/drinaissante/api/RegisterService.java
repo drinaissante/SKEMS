@@ -8,16 +8,17 @@ import java.io.IOException;
 public class RegisterService {
     private static final Gson GSON = new Gson();
 
-    public static RegisterResponse register(String name, String type, String owner, String date_given, String status) throws IOException {
+    public static RegisterResponse register(String name, String type, String owner, String date_given, String status, String note) throws IOException {
         String json = """
                 {
                     "name": "%s",
                     "type": "%s",
                     "owner": "%s",
                     "date_given": "%s",
-                    "status": "%s"
+                    "status": "%s",
+                    "note": "%s"
                 }
-                """.formatted(name, type, owner, date_given, status);
+                """.formatted(name, type, owner, date_given, status, note);
 
         String response = ApiClient.sendPOST(json);
 

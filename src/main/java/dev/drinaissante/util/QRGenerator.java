@@ -13,21 +13,22 @@ import java.nio.file.Paths;
 
 public class QRGenerator {
     public static final String qrCodesPath;
+    public static final File parentFolder;
 
     static {
         try {
-            File parentFolder = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
-
-            qrCodesPath = parentFolder.getAbsolutePath() + File.separator + "qrCodes";
-
-            File qrCodesFile = new File(qrCodesPath);
-
-            if (!qrCodesFile.exists()) {
-                if (qrCodesFile.mkdirs())
-                    System.out.println("Successfully created " + qrCodesPath);
-            }
+            parentFolder = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
+        }
+
+        qrCodesPath = parentFolder.getAbsolutePath() + File.separator + "qrCodes";
+
+        File qrCodesFile = new File(qrCodesPath);
+
+        if (!qrCodesFile.exists()) {
+            if (qrCodesFile.mkdirs())
+                System.out.println("Successfully created " + qrCodesPath);
         }
     }
 

@@ -13,7 +13,7 @@ target/
 *.iml
 *.ipr
 
-out/artifacts/SKEMS/SKEMS.jar
+out/
 src/main/resources/config.properties
 
 ### Eclipse ###

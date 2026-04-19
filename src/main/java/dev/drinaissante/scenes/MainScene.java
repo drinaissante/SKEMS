@@ -80,6 +80,9 @@ public class MainScene extends SKScene {
         // for now, officerBtn -> admin side
         officerBtn.setOnMouseClicked(event -> sceneManager.switchScenes(sceneManager.getDashboardScene()));
 
+        // member
+        memberBtn.setOnMouseClicked(event -> sceneManager.switchScenes(sceneManager.getMemberDashboardScene()));
+
         // register / login
 
         Button registerBtn = new Button("REGISTER");
