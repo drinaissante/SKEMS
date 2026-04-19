@@ -1,13 +1,17 @@
 package dev.drinaissante.tabs;
 
 import dev.drinaissante.Main;
+import dev.drinaissante.api.RegisterResponse;
+import dev.drinaissante.api.RegisterService;
 import dev.drinaissante.util.ColorUtil;
 import dev.drinaissante.util.Fonts;
+import dev.drinaissante.util.QRGenerator;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,9 +20,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -37,12 +45,6 @@ public class EquipmentsTab implements SKTab {
 
     @Override
     public SKTab build() {
-//        Region overlay = new Region();
-//        overlay.prefWidthProperty().bind(getStackPane().widthProperty());
-//        overlay.prefHeightProperty().bind(getStackPane().heightProperty());
-//        overlay.setStyle("""
-//                -fx-background-color: linear-gradient( to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 100% );
-//                """);
         mainContent.setStyle("-fx-background-color: linear-gradient(to left, #292832 0.000%, #272530 8.333%, #24222e 16.667%, #201f2b 25.000%, #1c1b27 33.333%, #181624 41.667%, #141220 50.000%, #100e1c 58.333%, #0c0a18 66.667%, #080614 75.000%, #050311 83.333%, #02000e 91.667%, #00000b 100.000%);" +
                 "-fx-padding: 20;");
 
@@ -74,11 +76,9 @@ public class EquipmentsTab implements SKTab {
         Button addBtn = new Button("Add Item");
         addBtn.getStyleClass().add("btn");
         addBtn.setPrefWidth(150);
-        addBtn.setOnAction(event -> {
-            // TODO
-        });
-        VBox.setMargin(addBtn, new Insets(15, 0, 40, 30));
+        addBtn.setOnAction(event -> showRegisterWindow());
 
+        VBox.setMargin(addBtn, new Insets(15, 0, 40, 30));
 
         Region HSpacer = new Region();
         HBox.setHgrow(HSpacer, Priority.ALWAYS);
@@ -99,10 +99,10 @@ public class EquipmentsTab implements SKTab {
         VBox content = new VBox(30, searchWithSort, scrollPane, VSpacer, statsPanel);
 
         mainContent.setCenter(content);
-
-//        return new StackPane(overlay, mainContent);
         return this;
     }
+
+    private final TilePane equipmentGrid = new TilePane();
 
     private HBox buildSearchBox() {
         TextField searchField = new TextField();
@@ -130,7 +130,6 @@ public class EquipmentsTab implements SKTab {
     }
 
     private ScrollPane setupEquipmentScrollPane() {
-        TilePane equipmentGrid = new TilePane();
         equipmentGrid.setPrefColumns(5);
         equipmentGrid.setHgap(20);
         equipmentGrid.setVgap(20);
@@ -142,8 +141,8 @@ public class EquipmentsTab implements SKTab {
 
         for (int i = 0; i < 20; i++) {
             // TODO database
-            String name = "Sony Mavica";
-            String owner = "Yow momma";
+            String name = rand.nextBoolean() ? "Sony Mavica" : "Nikon Z 30";
+            String owner = rand.nextBoolean() ? "Ayoki Konnichiwa" : "Trevor Basti Torres";
             String status = rand.nextBoolean() ? "AVAILABLE" : "PENDING";
 
             VBox item = getItem(status, name, owner);
@@ -158,6 +157,89 @@ public class EquipmentsTab implements SKTab {
         scrollPane.setPannable(true);
 
         return scrollPane;
+    }
+
+    private void showRegisterWindow() {
+        Stage stage = new Stage();
+        stage.setTitle("SKEMS | Register New Item");
+        stage.getIcons().add(Main.ICON_NO_BG);
+
+        // This makes it a "Modal" window (blocks the main window)
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        VBox layout = new VBox(20);
+        layout.setPadding(new Insets(25));
+        layout.setAlignment(Pos.TOP_CENTER);
+        layout.setStyle("-fx-background-color: #f4f4f4;");
+
+        // --- FORM SECTION (GridPane) ---
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(15);
+
+        TextField tfName = new TextField();
+        TextField tfType = new TextField();
+        TextField tfOwner = new TextField();
+        TextField tfDate = new TextField("2026-03-25 19:02");
+        TextField tfNote = new TextField();
+        ComboBox<String> statusCombo = new ComboBox<>();
+        statusCombo.getItems().addAll("Pending", "Approved");
+        statusCombo.setValue("Pending");
+
+        grid.addRow(0, new Label("Name:"), tfName);
+        grid.addRow(1, new Label("Type:"), tfType);
+        grid.addRow(2, new Label("Owner:"), tfOwner);
+        grid.addRow(3, new Label("Date:"), tfDate);
+        grid.addRow(4, new Label("Status:"), statusCombo);
+        grid.addRow(5, new Label("Note:"), tfNote);
+
+        // --- QR SECTION ---
+        ImageView qrView = new ImageView();
+        qrView.setFitWidth(200);
+        qrView.setFitHeight(200);
+        qrView.setPreserveRatio(true);
+
+        StackPane qrContainer = new StackPane(qrView);
+        qrContainer.setStyle("-fx-background-color: white; -fx-border-color: #ccc; -fx-padding: 5;");
+        qrContainer.setVisible(false); // Hide until generated
+
+        // --- SUBMIT LOGIC ---
+        Button submitBtn = new Button("Submit Registration");
+        submitBtn.setMaxWidth(Double.MAX_VALUE); // Full width
+
+        submitBtn.setOnAction(e -> {
+            // Validation check
+            if (tfName.getText().isEmpty()) {
+                tfName.setStyle("-fx-border-color: red;");
+                return;
+            }
+
+            try {
+                RegisterResponse resp = RegisterService.register(
+                        tfName.getText(), tfType.getText(), tfOwner.getText(),
+                        tfDate.getText(), statusCombo.getValue(), tfNote.getText()
+                );
+
+                File qrFile = new File(QRGenerator.parentFolder.getAbsolutePath() + "/qrCodes/" + resp.uuid + ".png");
+
+                if (qrFile.exists()) {
+                    qrView.setImage(new Image(qrFile.toURI().toString()));
+                    qrContainer.setVisible(true);
+                    // Adjust window size to fit the new QR code
+                    stage.sizeToScene();
+                }
+
+                equipmentGrid.getChildren().add(getItem(statusCombo.getValue(), tfName.getText(), tfOwner.getText()));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        layout.getChildren().addAll(grid, submitBtn, qrContainer);
+
+        Scene scene = new Scene(layout);
+        stage.setScene(scene);
+        stage.showAndWait(); // This pauses the main code until this window closes
     }
 
     private HBox buildStat(String labelText, String valueText, Color valueFill) {

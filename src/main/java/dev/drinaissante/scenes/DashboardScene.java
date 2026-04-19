@@ -2,10 +2,7 @@ package dev.drinaissante.scenes;
 
 import dev.drinaissante.Main;
 import dev.drinaissante.managers.SceneManager;
-import dev.drinaissante.tabs.BorrowRequestsTab;
-import dev.drinaissante.tabs.DashboardTab;
-import dev.drinaissante.tabs.EquipmentsTab;
-import dev.drinaissante.tabs.SKTab;
+import dev.drinaissante.tabs.*;
 import dev.drinaissante.util.Fonts;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -27,7 +24,7 @@ import java.util.Objects;
 
 public class DashboardScene extends SKScene {
 
-    private SKTab equipmentsTab, dashboardTab, borrowRequestsTab;
+    private SKTab equipmentsTab, dashboardTab, borrowRequestsTab, historyLogsTab;
 
     public DashboardScene(SceneManager sceneManager) {
         super(sceneManager, "Dashboard");
@@ -59,6 +56,8 @@ public class DashboardScene extends SKScene {
         this.equipmentsTab = new EquipmentsTab().build();
 
         this.borrowRequestsTab = new BorrowRequestsTab().build();
+
+        this.historyLogsTab = new HistoryLogsTab().build();
     }
 
     // TODO logout profile auth, add other tabs
@@ -77,9 +76,9 @@ public class DashboardScene extends SKScene {
         ToggleButton dashboardBtn = new ToggleButton("Dashboard");
         ToggleButton equipmentBtn = new ToggleButton("Equipment");
         ToggleButton borrowBtn = new ToggleButton("Borrow Requests");
-        ToggleButton reservationsBtn = new ToggleButton("Reservations");
+//        ToggleButton reservationsBtn = new ToggleButton("Reservations");
         ToggleButton historyLogBtn = new ToggleButton("History Log");
-        ToggleButton reportsBtn = new ToggleButton("Reports");
+//        ToggleButton reportsBtn = new ToggleButton("Reports");
 
         ToggleGroup group = new ToggleGroup();
         dashboardBtn.setToggleGroup(group);
@@ -91,13 +90,16 @@ public class DashboardScene extends SKScene {
         borrowBtn.setToggleGroup(group);
         borrowBtn.setOnAction(e -> switchMainContent(borrowRequestsTab.getNode()));
 
-        reservationsBtn.setToggleGroup(group);
+//        reservationsBtn.setToggleGroup(group);
+
         historyLogBtn.setToggleGroup(group);
-        reportsBtn.setToggleGroup(group);
+        historyLogBtn.setOnAction(e -> switchMainContent(historyLogsTab.getNode()));
+
+//        reportsBtn.setToggleGroup(group);
 
         dashboardBtn.setSelected(true);
 
-        for (ButtonBase btn : List.of(dashboardBtn, equipmentBtn, borrowBtn, reservationsBtn, historyLogBtn, reportsBtn)) {
+        for (ButtonBase btn : List.of(dashboardBtn, equipmentBtn, borrowBtn, historyLogBtn)) {
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setAlignment(Pos.CENTER_RIGHT);
             btn.setCursor(Cursor.HAND);

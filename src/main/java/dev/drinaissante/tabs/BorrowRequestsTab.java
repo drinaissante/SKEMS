@@ -50,7 +50,7 @@ public class BorrowRequestsTab implements SKTab {
         searchField.setStyle("""
                     -fx-padding: 10;
                     -fx-background-color: #a6a6a6;
-                    -fx-background-raidus: 14px;
+                    -fx-background-radius: 14px;
                 """);
 
         // setup requests
@@ -85,12 +85,27 @@ public class BorrowRequestsTab implements SKTab {
         for (int i = 0; i < 12; i++) {
             HBox hbox = new HBox(10);
             HBox.setHgrow(hbox, Priority.ALWAYS);
+            boolean even = i % 2 == 0;
+
             hbox.setStyle("""
                     -fx-background-color: %s;
                     -fx-padding: 10 30 10 30;
                     -fx-text-fill: black;
-                    """.formatted(i % 2 == 0 ? "#a6a6a6" : "#a6a6a620")
+                    """.formatted(even ? "#a6a6a6" : "#a6a6a680")
             );
+            hbox.setOnMouseEntered(event -> hbox.setStyle("""
+                -fx-background-color: %s;
+                -fx-padding: 10 30 10 30;
+                -fx-text-fill: black;
+                """.formatted("#a6a6a620")
+            ));
+
+            hbox.setOnMouseExited(event -> hbox.setStyle("""
+                -fx-background-color: %s;
+                -fx-padding: 10 30 10 30;
+                -fx-text-fill: black;
+                """.formatted(even ? "#a6a6a6" : "#a6a6a680")
+            ));
 
             // TODO temp | fetch profile auth
             ImageView profileView = new ImageView(profileImg);
@@ -129,7 +144,7 @@ public class BorrowRequestsTab implements SKTab {
 
     // TODO request / process request btn / date and time
     private VBox setupRightPanel() {
-        VBox mainContent = new VBox();
+        VBox mainContent = new VBox(20);
         mainContent.setAlignment(Pos.CENTER);
         mainContent.setStyle("-fx-background-color: #a6a6a680; -fx-padding: 10;");
 
@@ -169,6 +184,8 @@ public class BorrowRequestsTab implements SKTab {
         // TODO equipment_image
         VBox equipmentBox = new VBox(10, imageView, equipment_name, ownerText);
         equipmentBox.setAlignment(Pos.CENTER);
+        equipmentBox.setMaxWidth(200);
+        equipmentBox.setPrefWidth(200);
         equipmentBox.setStyle("""
                     -fx-background-color: gray;
                     -fx-padding: 20;
@@ -176,6 +193,8 @@ public class BorrowRequestsTab implements SKTab {
 
         Button processBtn = new Button("Process Request");
         processBtn.getStyleClass().add("btn");
+
+        HBox.setHgrow(mainContent, Priority.ALWAYS);
 
         mainContent.getChildren().addAll(dateBox, requestText, reasonText, equipmentBox, processBtn);
 
