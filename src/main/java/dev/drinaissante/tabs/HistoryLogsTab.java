@@ -27,7 +27,7 @@ public class HistoryLogsTab implements SKTab {
     private final HBox mainContent = new HBox(30);
 
     // TODO temp
-    private final Image profileImg = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/profile.jpg")));
+    private final Image profileImg = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/default_profile.jpg")));
     // TODO temp equipmentImg
     private final Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/camera_1.png")));
     private final Random rand = new Random();

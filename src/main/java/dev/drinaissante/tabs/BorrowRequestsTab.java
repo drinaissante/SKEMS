@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -27,7 +26,7 @@ public class BorrowRequestsTab implements SKTab {
     private final HBox mainContent = new HBox(10);
 
     // TODO temp
-    private final Image profileImg = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/profile.jpg")));
+    private final Image profileImg = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/default_profile.jpg")));
 
     // TODO temp equipmentImg
     private final Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/camera_1.png")));
@@ -94,17 +93,17 @@ public class BorrowRequestsTab implements SKTab {
                     """.formatted(even ? "#a6a6a6" : "#a6a6a680")
             );
             hbox.setOnMouseEntered(event -> hbox.setStyle("""
-                -fx-background-color: %s;
-                -fx-padding: 10 30 10 30;
-                -fx-text-fill: black;
-                """.formatted("#a6a6a620")
+                    -fx-background-color: %s;
+                    -fx-padding: 10 30 10 30;
+                    -fx-text-fill: black;
+                    """.formatted("#a6a6a620")
             ));
 
             hbox.setOnMouseExited(event -> hbox.setStyle("""
-                -fx-background-color: %s;
-                -fx-padding: 10 30 10 30;
-                -fx-text-fill: black;
-                """.formatted(even ? "#a6a6a6" : "#a6a6a680")
+                    -fx-background-color: %s;
+                    -fx-padding: 10 30 10 30;
+                    -fx-text-fill: black;
+                    """.formatted(even ? "#a6a6a6" : "#a6a6a680")
             ));
 
             // TODO temp | fetch profile auth

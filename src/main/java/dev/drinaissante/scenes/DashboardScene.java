@@ -135,7 +135,7 @@ public class DashboardScene extends SKScene {
     // TODO the profile here
     private HBox setupProfile() {
         // TODO fetch profile picture, name
-        final Image profile = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/profile.jpg")));
+        final Image profile = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/default_profile.jpg")));
 
         ImageView profileView = new ImageView(profile);
         profileView.setFitWidth(70);

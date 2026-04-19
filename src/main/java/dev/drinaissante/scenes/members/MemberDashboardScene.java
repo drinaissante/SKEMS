@@ -3,7 +3,6 @@ package dev.drinaissante.scenes.members;
 import dev.drinaissante.Main;
 import dev.drinaissante.managers.SceneManager;
 import dev.drinaissante.scenes.SKScene;
-import dev.drinaissante.tabs.EquipmentsTab;
 import dev.drinaissante.tabs.SKTab;
 import dev.drinaissante.tabs.members.MemberEquipmentsTab;
 import dev.drinaissante.util.Fonts;
@@ -110,7 +109,7 @@ public class MemberDashboardScene extends SKScene {
     // TODO the profile here
     private HBox setupProfile() {
         // TODO fetch profile picture, name
-        final Image profile = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/profile.jpg")));
+        final Image profile = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("/default_profile.jpg")));
 
         ImageView profileView = new ImageView(profile);
         profileView.setFitWidth(70);
