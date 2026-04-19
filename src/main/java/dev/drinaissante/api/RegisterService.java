@@ -16,7 +16,7 @@ public class RegisterService {
                     "owner": "%s",
                     "date_given": "%s",
                     "status": "%s",
-                    "note": "%s"
+                    "notes": "%s"
                 }
                 """.formatted(name, type, owner, date_given, status, note);
 
@@ -29,6 +29,9 @@ public class RegisterService {
         RegisterResponse registerResponse = GSON.fromJson(response, RegisterResponse.class);
 
         String imageFile = registerResponse.uuid + ".png";
+
+        System.out.println(imageFile);
+        System.out.println(registerResponse.url);
 
         QRGenerator.generateQR(registerResponse.url, imageFile);
 

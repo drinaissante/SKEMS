@@ -42,7 +42,7 @@ public class MemberEquipmentsTab implements SKTab {
     private final List<EquipmentItem> allItems = new ArrayList<>();
     private final List<EquipmentItem> filteredItems = new ArrayList<>();
     private final Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/camera_1.png")));
-    private final Image image2 = new Image(QRGenerator.qrCodesPath + File.separator + "bca94bcf-63ee-4598-aa88-898ef2077e82.png");
+    private final Image image2 = new Image(new File(QRGenerator.qrCodesPath + File.separator + "ef2e09be-3e36-428e-8f5c-bd627b4028a0.png").toURI().toString());
 
     @Override
     public Node getNode() {
